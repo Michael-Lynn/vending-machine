@@ -6,7 +6,7 @@ class VendingMachine
 
 	include ChangeDispenser
 
-	attr_accessor :products, :total_money
+	attr_accessor :products, :total_money, :customer, :inserted_money, :purchase_name, :desired_product
 
 	def initialize products, total_money
 		@products = products
@@ -18,15 +18,19 @@ class VendingMachine
 	end
 
 	def process_payment payment
-		@product_name, @inserted_money, @customer = payment[:for], payment[:of], payment[:from]
+		@desired_product, @inserted_money, @customer = products.find(&product_by(payment[:for])), payment[:of], payment[:from]
+		take_money
 		dispense_product if order_ok?
 	end
 
 	def dispense_product
-		product = products.find(&product_by(@product_name))
-		@customer.satchel << product
-		products.delete product
-		@total_money += @inserted_money
+		customer.satchel << desired_product
+		products.delete desired_product
+	end
+
+	def take_money
+		customer.wallet -= desired_product.price
+		@total_money += inserted_money
 	end
 
 	def order_ok?
@@ -39,7 +43,7 @@ class VendingMachine
 	end
 
 	def incorrect_amount_given?
-		products.find(&product_by(@product_name)).price > @inserted_money
+		desired_product.price > inserted_money
 	end
 
 

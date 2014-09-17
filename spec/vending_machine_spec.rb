@@ -5,7 +5,7 @@ describe VendingMachine do
 	let(:crisps) {Product.new("Crisps", 2.5)}
 	let(:chocolate) { Product.new("Chocolate", 0.5)}
 	let(:products) { [crisps, chocolate]}
-	let(:customer) { Customer.new }
+	let(:customer) { Customer.new 15 }
 	let(:vending_machine) {vending_machine = VendingMachine.new(products, 50) }
 
 	it 'is initialized with a list of products and some money' do 
@@ -23,8 +23,14 @@ describe VendingMachine do
 		expect(STDOUT).to receive(:puts).with "Not enough money inserted"
 		customer.buy product: "Crisps", at: vending_machine, with: 0.5
 		expect(vending_machine.products.count).to eq 2
-		expect(vending_machine.total_money).to eq 50
 	end
+
+	context 'dispensing change' do 
+
+		# xit 'dispenses nothing if exact '
+
+	end
+
 
 
 

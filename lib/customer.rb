@@ -1,5 +1,12 @@
 class Customer
 
+	attr_accessor :wallet
+
+	def initialize money
+		@wallet = money
+	end
+
+
 	def satchel
 		@satchel ||= []
 	end
