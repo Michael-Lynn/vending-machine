@@ -1,11 +1,20 @@
 require 'customer'
 
-describe Customer do 
+describe Customer do
+
+	let(:crisps) {Product.new("Crisps", 2.5)}
+	let(:chocolate) { Product.new("Chocolate", 0.5)}
+	let(:products) { [crisps, chocolate]}
+	let(:customer) { Customer.new }
+	let(:vending_machine) {vending_machine = VendingMachine.new(products, 50) }
 
 	it 'starts off by having an empty satchel' do 
-		customer = Customer.new
 		expect(customer.satchel).to be_empty
 	end
 
+	it 'when he correctly orders from the vending machine' do 
+		customer.buy product: "Crisps", at: vending_machine, with: 2.5
+		expect(customer.satchel).to include crisps
+	end
 
 end

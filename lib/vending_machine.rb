@@ -18,26 +18,28 @@ class VendingMachine
 	end
 
 	def process_payment payment
-		product_name, inserted_money = payment[:for], payment[:of]
-		dispense_product product_name, inserted_money if order_ok? product_name, inserted_money
+		@product_name, @inserted_money, @customer = payment[:for], payment[:of], payment[:from]
+		dispense_product if order_ok?
 	end
 
-	def dispense_product product_name, inserted_money
-		products.delete_if(&product_by(product_name)) 
-		@total_money += inserted_money
+	def dispense_product
+		product = products.find(&product_by(@product_name))
+		@customer.satchel << product
+		products.delete product
+		@total_money += @inserted_money
 	end
 
-	def order_ok? product_name, inserted_money
-		if incorrect_amount_given_with? inserted_money, product_name 
+	def order_ok?
+		if incorrect_amount_given?
 			puts "Not enough money inserted"
-			return false
+			false
 		else
 			true
 		end
 	end
 
-	def incorrect_amount_given_with? inserted_money, product_name
-		products.find(&product_by(product_name)).price > inserted_money
+	def incorrect_amount_given?
+		products.find(&product_by(@product_name)).price > @inserted_money
 	end
 
 
