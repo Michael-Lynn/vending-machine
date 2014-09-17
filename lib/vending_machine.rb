@@ -1,10 +1,14 @@
 require_relative 'customer'
 require_relative 'product'
 require_relative 'change_dispenser'
+require_relative 'coin_slot'
+require_relative 'the_claw'
 
 class VendingMachine
 
 	include ChangeDispenser
+	include CoinSlot
+	include TheClaw
 
 	attr_accessor :products, :total_money, :customer, :inserted_money, :purchase_name, :desired_product
 
@@ -13,42 +17,10 @@ class VendingMachine
 		@total_money = total_money
 	end
 
-	def product_by product_name
-		Proc.new {|product| product.name == product_name  }
-	end
-
-	def money_exchange type
-		Proc.new {|denomination, wallet_frequency, inserted_frequency| wallet_frequency.send type, inserted_frequency }
-	end
-
 	def process_payment payment
 		@desired_product, @inserted_money, @customer = products.find(&product_by(payment[:for])), payment[:of], payment[:from]
 		take_money
 		dispense_product if order_ok?
 	end
-
-	def dispense_product
-		customer.satchel << desired_product
-		products.delete desired_product
-	end
-
-	def take_money
-		customer.wallet = customer.wallet.merge(inserted_money, &money_exchange(:-)) 
-		@total_money = @total_money.merge(inserted_money, &money_exchange(:+))
-	end
-
-	def order_ok?
-		if incorrect_amount_given?
-			puts "Not enough money inserted"
-			false
-		else
-			true
-		end
-	end
-
-	def incorrect_amount_given?
-		desired_product.price > inserted_money.map {|denomination, quantity| denomination * quantity}.inject(:+)
-	end
-
 
 end
