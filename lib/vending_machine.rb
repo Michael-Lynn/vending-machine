@@ -29,8 +29,8 @@ class VendingMachine
 	end
 
 	def take_money
-		customer.wallet -= desired_product.price
-		@total_money += inserted_money
+		customer.wallet = customer.wallet.merge(inserted_money) {|denomination, wallet_frequency, inserted_frequency| wallet_frequency - inserted_frequency }
+		@total_money = @total_money.merge(inserted_money) {|denomination, wallet_frequency, inserted_frequency| wallet_frequency + inserted_frequency }
 	end
 
 	def order_ok?
@@ -43,7 +43,7 @@ class VendingMachine
 	end
 
 	def incorrect_amount_given?
-		desired_product.price > inserted_money
+		desired_product.price > inserted_money.map {|denomination, quantity| denomination * quantity}.inject(:+)
 	end
 
 
