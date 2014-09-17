@@ -17,6 +17,10 @@ class VendingMachine
 		Proc.new {|product| product.name == product_name  }
 	end
 
+	def money_exchange type
+		Proc.new {|denomination, wallet_frequency, inserted_frequency| wallet_frequency.send type, inserted_frequency }
+	end
+
 	def process_payment payment
 		@desired_product, @inserted_money, @customer = products.find(&product_by(payment[:for])), payment[:of], payment[:from]
 		take_money
@@ -29,8 +33,8 @@ class VendingMachine
 	end
 
 	def take_money
-		customer.wallet = customer.wallet.merge(inserted_money) {|denomination, wallet_frequency, inserted_frequency| wallet_frequency - inserted_frequency }
-		@total_money = @total_money.merge(inserted_money) {|denomination, wallet_frequency, inserted_frequency| wallet_frequency + inserted_frequency }
+		customer.wallet = customer.wallet.merge(inserted_money, &money_exchange(:-)) 
+		@total_money = @total_money.merge(inserted_money, &money_exchange(:+))
 	end
 
 	def order_ok?
