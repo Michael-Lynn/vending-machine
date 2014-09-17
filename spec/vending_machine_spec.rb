@@ -6,7 +6,7 @@ describe VendingMachine do
 	let(:chocolate) { Product.new("Chocolate", 50)}
 	let(:products) { [crisps, chocolate]}
 	let(:change) {
-		{
+		Hash[{
 			1 => 1,
 			2 => 1,
 			5 => 1,
@@ -15,7 +15,7 @@ describe VendingMachine do
 			50 => 1,
 			100 => 1,
 			200 => 1
-		}
+		}.sort.reverse]
 	}
 	let(:customer) { Customer.new change }
 	let(:vending_machine) {vending_machine = VendingMachine.new(products, change) }
@@ -40,7 +40,25 @@ describe VendingMachine do
 
 	context 'dispensing change' do 
 
-		# xit 'dispenses nothing if exact '
+		it 'renders a single coin and gives it to the customer' do 
+			customer.buy product: "Crisps", at: vending_machine, with: {200 => 1, 100 => 1}
+			expect(customer.wallet[50]).to eq 2
+		end
+
+		it 'should be able to return two coins in the optimal format' do
+			customer.wallet[20] = 4
+			customer.buy product: "Crisps", at: vending_machine, with: {200 => 1, 20 => 4}
+			expect(customer.wallet[20]).to eq 1
+			expect(customer.wallet[10]).to eq 2
+		end
+
+		it 'should give me change of £3.88' do 
+			vending_machine.products << Product.new("Cheese", 612)
+			customer.wallet[200] = 6
+			customer.buy product: "Cheese", at: vending_machine, with: {200 => 5}
+			puts customer.wallet
+			expect(customer.wallet.values.all? {|q| q == 2}).to be_truthy
+		end
 
 	end
 

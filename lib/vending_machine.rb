@@ -6,9 +6,7 @@ require_relative 'the_claw'
 
 class VendingMachine
 
-	include ChangeDispenser
-	include CoinSlot
-	include TheClaw
+	include ChangeDispenser, CoinSlot, TheClaw
 
 	attr_accessor :products, :total_money, :customer, :inserted_money, :purchase_name, :desired_product
 
@@ -21,6 +19,8 @@ class VendingMachine
 		@desired_product, @inserted_money, @customer = products.find(&product_by(payment[:for])), payment[:of], payment[:from]
 		take_money
 		dispense_product if order_ok?
+		render_change
 	end
+
 
 end
