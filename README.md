@@ -86,7 +86,9 @@ vending_machine.total_money
 
 ##How To Run Tests
 
-` rspec `
+```
+rspec 
+```
 
 
 
