@@ -5,6 +5,7 @@ module CoinSlot
 	end
 
 	def take_money
+		puts "You have inserted #{format("£%.2f", total_of(inserted_money).to_f/100)}"
 		customer.wallet = customer.wallet.merge(inserted_money, &money_exchange(:-)) 
 		@total_money = @total_money.merge(inserted_money, &money_exchange(:+))
 	end
@@ -13,12 +14,12 @@ module CoinSlot
 		incorrect_amount_given? ? (puts "Not enough money inserted") : true
 	end
 
-	def inserted_total
-		inserted_money.map {|denomination, quantity| denomination * quantity}.inject(:+)
+	def total_of amount
+		amount.map {|denomination, quantity| denomination * quantity}.inject(:+)
 	end
 
 	def incorrect_amount_given?
-		desired_product.price > inserted_total
+		desired_product.price > (total_of inserted_money)
 	end
 
 end

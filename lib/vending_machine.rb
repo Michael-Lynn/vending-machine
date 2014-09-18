@@ -18,8 +18,7 @@ class VendingMachine
 	def process_payment payment
 		@desired_product, @inserted_money, @customer = products.find(&product_by(payment[:for])), payment[:of], payment[:from]
 		take_money
-		dispense_product if order_ok?
-		render_change
+		order_ok? ? (dispense_product ; render_change) : false
 	end
 
 

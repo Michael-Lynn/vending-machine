@@ -26,6 +26,8 @@ describe VendingMachine do
 	end
 
 	it 'when the customer has ordered correctly, has more money and no longer that product' do
+		expect(STDOUT).to receive(:puts).with("You have inserted £2.50")
+		expect(STDOUT).to receive(:puts).with "Your change is £0.00"
 		customer.buy product: "Crisps", at: vending_machine, with: {200=>1, 50=>1}
 		expect(vending_machine.products.count).to eq 1
 		expect(vending_machine.total_money[200]).to eq 2
@@ -33,6 +35,7 @@ describe VendingMachine do
 	end
 
 	it 'alerts the customer if has paid too little' do 
+		expect(STDOUT).to receive(:puts).with "You have inserted £0.50"
 		expect(STDOUT).to receive(:puts).with "Not enough money inserted"
 		customer.buy product: "Crisps", at: vending_machine, with: {50 => 1}
 		expect(vending_machine.products.count).to eq 2
@@ -40,7 +43,9 @@ describe VendingMachine do
 
 	context 'dispensing change' do 
 
-		it 'renders a single coin and gives it to the customer' do 
+		it 'renders a single coin and gives it to the customer and tells the customer' do 
+			expect(STDOUT).to receive(:puts).with "You have inserted £3.00"
+			expect(STDOUT).to receive(:puts).with "Your change is £0.50"
 			customer.buy product: "Crisps", at: vending_machine, with: {200 => 1, 100 => 1}
 			expect(customer.wallet[50]).to eq 2
 		end
@@ -56,7 +61,6 @@ describe VendingMachine do
 			vending_machine.products << Product.new("Cheese", 612)
 			customer.wallet[200] = 6
 			customer.buy product: "Cheese", at: vending_machine, with: {200 => 5}
-			puts customer.wallet
 			expect(customer.wallet.values.all? {|q| q == 2}).to be_truthy
 		end
 

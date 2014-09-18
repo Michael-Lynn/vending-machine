@@ -11,8 +11,9 @@ module ChangeDispenser
 	end
 
 	def render_change
-		remainder = inserted_total - desired_product.price
+		remainder = (total_of inserted_money)  - desired_product.price
 		change = calculate_change_by remainder
+		puts "Your change is #{format("£%.2f", total_of(change).to_f/100)}"
 		customer.wallet.merge!(change, &money_exchange(:+))
 	end
 
