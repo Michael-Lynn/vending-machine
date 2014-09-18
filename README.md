@@ -61,7 +61,7 @@ vending_machine.products
 #=> []
 ```
 
-When insufficient money is paid, the vending machine prints to the console, `You have not inserted enough money`.
+When insufficient money is paid, the vending machine prints to the console: `You have not inserted enough money`.
 
 When the vending machine's products and change are empty, a maintenance man is in charge of replenishing them.
 
