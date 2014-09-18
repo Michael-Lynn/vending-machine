@@ -5,6 +5,7 @@ require_relative 'coin_slot'
 require_relative 'product_dispenser'
 require_relative 'calculator'
 require_relative 'transactions'
+require_relative 'maintenance_man'
 
 class VendingMachine
 

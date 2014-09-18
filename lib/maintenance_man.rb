@@ -13,8 +13,7 @@ class MaintenanceMan
 	end
 
 	def refill_coin_box options
-		money = options[:with]
-		vending_machine.receive money
+		money = options[:with] ; vending_machine.receive money
 	end
 
 end
