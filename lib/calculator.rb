@@ -10,10 +10,7 @@ module Calculator
 
 	def calculate_change_by remainder, change = Hash.new(0)
 		total_money.each do |denomination, quantity|
-			(remainder / denomination).times do 
-				change[denomination] += 1
-				remainder -= denomination
-			end
+			(remainder / denomination).times { change[denomination] += 1 ; remainder -= denomination }
 		end
 		return change
 	end

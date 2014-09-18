@@ -20,12 +20,15 @@ module MyLetDeclarations
   }
   let(:customer) { Customer.new change }
   let(:vending_machine) {vending_machine = VendingMachine.new(products, change) }
-
+  let(:coke) {Product.new "coke", 0.5}
+  let(:water) {Product.new "water", 0.2}
 end
 
 
 RSpec.configure do |config|
 
   config.include MyLetDeclarations
+
+  config.before { STDOUT.stub(:puts)}
 
 end

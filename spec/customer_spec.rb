@@ -2,8 +2,6 @@ require 'customer'
 
 describe Customer do
 
-	before { STDOUT.stub(:puts)}
-
 	it 'starts off by having an empty satchel' do 
 		expect(customer.satchel).to be_empty
 	end
