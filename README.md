@@ -74,7 +74,7 @@ vending_machine.products
 
 maintenance_man.refill_coin_box {1 => 1, 2 => 1}
 vending_machine.total_money
-{1 => 1, 2 => 1, 50=>0, 200=>1, 100=>1} 
+#=> {1 => 1, 2 => 1, 50=>0, 200=>1, 100=>1} 
 ```
 
 ##Architecture Decisions and Limitations
