@@ -4,10 +4,11 @@ require_relative 'change_dispenser'
 require_relative 'coin_slot'
 require_relative 'product_dispenser'
 require_relative 'calculator'
+require_relative 'transactions'
 
 class VendingMachine
 
-	include ChangeDispenser, CoinSlot, ProductDispenser, Calculator
+	include ChangeDispenser, CoinSlot, ProductDispenser, Calculator, Transactions
 
 	attr_accessor :products, :total_money, :customer, :inserted_money, :purchase_name, :desired_product
 

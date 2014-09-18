@@ -14,7 +14,7 @@ class MaintenanceMan
 
 	def refill_coin_box options
 		money = options[:with]
-		vending_machine.total_money.merge!(money, &vending_machine.money_exchange(:+))
+		vending_machine.receive money
 	end
 
 end

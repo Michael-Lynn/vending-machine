@@ -36,6 +36,7 @@ describe VendingMachine do
 		it 'renders a single coin and gives it to the customer' do 
 			customer.buy product: "Crisps", at: vending_machine, with: {200 => 1, 100 => 1}
 			expect(customer.wallet[50]).to eq 2
+			expect(vending_machine.total_money[50]).to eq 0
 		end
 
 		it 'should be able to return two coins in the optimal format' do
