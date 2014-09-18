@@ -1,4 +1,4 @@
-module TheClaw
+module ProductDispenser
 
 	def dispense_product
 		customer.satchel << desired_product
