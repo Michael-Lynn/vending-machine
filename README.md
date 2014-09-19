@@ -1,6 +1,6 @@
 #Vending Machine
 
-A test-driven excercise to design a vending machine in Ruby.
+A test-driven exercise to design a vending machine in Ruby.
 
 ##The Task
 
